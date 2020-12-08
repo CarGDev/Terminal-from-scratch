@@ -140,7 +140,7 @@ ssh-add ~/.ssh/id_rsa
 Copy your public key to github locate in --> ~/.ssh/id_rsa.pub
 In github go to Account/setting/SSH and GPG keys and add New SSH Key and Add it
 
-![Github key.png](./Image/github.PNG)
+![Github key.png](./Image/Github.PNG)
 
 ---
 
