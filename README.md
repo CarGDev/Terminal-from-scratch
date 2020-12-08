@@ -299,6 +299,8 @@ A minimalist Vim plugin manager.
 
 To check how use vim please go to [how use vim](http://vimsheet.com/)
 
+To install the vim configuration I use check my [VIM Repository](https://github.com/CarGDev/Vim-configuration)
+
 ---
 
 ## Installing autosuggestions and syntax-highlighting for ZSH
