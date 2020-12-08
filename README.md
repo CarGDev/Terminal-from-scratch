@@ -62,7 +62,7 @@ Step 6 - Install your Linux distribution of choice
 
 Open the [Microsoft Store](https://aka.ms/wslstore) and select your favorite Linux distribution.
 
-![Microsoft Store](./Image/store.PNG)
+![Microsoft Store](./Image/store.png)
 
 After all the steps, open ubuntu in your system and leave to end the installation
 
