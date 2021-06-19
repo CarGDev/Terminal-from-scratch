@@ -445,3 +445,10 @@ after that you can download `DBeaver`
 $ sudo apt update
 $ sudo apt install dbeaver-ce
 ```
+
+## Installing colorscheme for ranger
+
+```sh
+$ cd ~/.config/ranger
+$ git clone https://github.com/ranger/colorschemes.git
+```
