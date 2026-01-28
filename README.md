@@ -1,454 +1,776 @@
 # Terminal-from-scratch
 
-When crash your computer windows or Linux have to have remembered all the stuff installed before to set them again once recover your OS.
+When your computer crashes (Windows, Linux, or macOS), you need to remember all the software installed to set them up again once you recover your OS.
 
-This Blog has the purpose to encapsulate all the steps to set again all stuff minimum necessary to start to code again.
+This guide serves as a source of truth to encapsulate all the steps needed to set up a development environment from scratch.
 
----
+## Supported Operating Systems
 
-## Installing google chrome by terminal
-
-First to all update linux
-
-```sh
-$ sudo apt update & sudo apt upgrade -y
-```
-
-install `wget`
-
-```sh
-$ sudo apt install wget
-```
-
-download chrome from deb
-
-```sh
-$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-```
-
-install the package with `dpkg`
-
-```sh
-$ sudo dpkg -i google-chrome-stable_current_amd64.deb
-```
-
-if you have some error during the installation run the command below
-
-```sh
-$ sudo apt-get install -f
-```
-
-more [Information](https://es.wikihow.com/instalar-Google-Chrome-desde-la-Terminal-en-Linux)
+| Symbol | OS |
+|--------|-----|
+| :apple: | macOS |
+| :penguin: | Linux (Debian/Ubuntu) |
+| :a: | Arch Linux |
+| :window: | Windows |
 
 ---
 
-## Font installation
+## Table of Contents
 
-Manual font installation
-Download these four ttf files:
+- [Google Chrome](#installing-google-chrome)
+- [Fonts](#font-installation)
+- [VS Code](#installing-vs-code)
+- [Git](#installing-git)
+- [Node.js and NPM](#installing-nodejs-and-npm)
+- [Oh-My-Zsh](#installing-oh-my-zsh)
+- [Neovim](#installing-neovim)
+- [ZSH Plugins](#installing-zsh-plugins)
+- [Powerlevel10k](#installing-powerlevel10k)
+- [Ranger](#installing-ranger)
+- [Terminal Emulator](#installing-terminal-emulator)
+- [GNOME Extensions](#installing-gnome-extensions-linux)
+- [Postman](#installing-postman)
+- [DBeaver](#installing-dbeaver)
+
+---
+
+## Installing Google Chrome
+
+### :apple: macOS
+
+Using Homebrew:
+```sh
+brew install --cask google-chrome
+```
+
+Or download directly from [google.com/chrome](https://www.google.com/chrome/)
+
+### :penguin: Linux (Debian/Ubuntu)
+
+```sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
+
+If you have errors during installation:
+```sh
+sudo apt-get install -f
+```
+
+### :a: Arch Linux
+
+```sh
+yay -S google-chrome
+```
+
+Or using `paru`:
+```sh
+paru -S google-chrome
+```
+
+### :window: Windows
+
+Using Chocolatey:
+```powershell
+choco install googlechrome
+```
+
+Using winget:
+```powershell
+winget install Google.Chrome
+```
+
+Or download from [google.com/chrome](https://www.google.com/chrome/)
+
+---
+
+## Font Installation
+
+Download MesloLGS NF (recommended for Powerlevel10k):
 
 - [MesloLGS NF Regular.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
 - [MesloLGS NF Bold.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
 - [MesloLGS NF Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
 - [MesloLGS NF Bold Italic.ttf](https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
 
+### :apple: macOS
+
+Double-click each `.ttf` file and click "Install Font", or:
+```sh
+brew tap homebrew/cask-fonts
+brew install --cask font-meslo-lg-nerd-font
+```
+
+### :penguin: Linux (Debian/Ubuntu)
+
+```sh
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+fc-cache -fv
+```
+
+### :a: Arch Linux
+
+```sh
+yay -S ttf-meslo-nerd-font-powerlevel10k
+```
+
+Or manually:
+```sh
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+fc-cache -fv
+```
+
+### :window: Windows
+
+Download and double-click each `.ttf` file, then click "Install".
+
+Or using Chocolatey:
+```powershell
+choco install nerd-fonts-meslo
+```
+
 ---
 
-## Setting up the terminal
+## Installing VS Code
 
-### Installing VS Code
-
-Step 1 - Install wget if not present.
+### :apple: macOS
 
 ```sh
-$ sudo apt update
-$ sudo apt -y install wget
+brew install --cask visual-studio-code
 ```
 
-Step 2 - Add Visual Studio Code repository and key
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ sudo apt update
-$ sudo apt install apt-transport-https
-$ curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-$ sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo apt update
+sudo apt install wget apt-transport-https
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt update
+sudo apt install code
 ```
 
-Step 3 - Add APT repository to the system
+### :a: Arch Linux
 
 ```sh
-$ sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable $ main" > /etc/apt/sources.list.d/vscode.list'
+sudo pacman -S code
 ```
-Step 4 - Visual Studio Code on
+
+Or for the proprietary version:
+```sh
+yay -S visual-studio-code-bin
+```
+
+### :window: Windows
+
+Using Chocolatey:
+```powershell
+choco install vscode
+```
+
+Using winget:
+```powershell
+winget install Microsoft.VisualStudioCode
+```
+
+Launch with:
+```sh
+code
+```
+
+---
+
+## Installing Git
+
+### :apple: macOS
+
+Git comes pre-installed. To update or install:
+```sh
+brew install git
+```
+
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ sudo apt update
-$ sudo apt install code
+sudo apt install git-all
 ```
 
-To launch the text editor type next in the terminal
+### :a: Arch Linux
 
 ```sh
-$ code
+sudo pacman -S git
 ```
 
-### Installing Git
+### :window: Windows
 
-Step 1 - Open the terminal and type 
+Using Chocolatey:
+```powershell
+choco install git
+```
+
+Using winget:
+```powershell
+winget install Git.Git
+```
+
+### Verify Installation (All Platforms)
 
 ```sh
-$ sudo apt install git-all
+git --version
 ```
 
-Step 2 - you can check the git version with
+### Configure Git (All Platforms)
 
 ```sh
-$ git --version
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
 ```
 
-Step 3 - Connect git with github
+### Set Up SSH Key (All Platforms)
 
-Configure your e-mail in git (the same as your github account)
-
+Generate SSH key:
 ```sh
-$ git config --global user.email cargdev@example.com
+ssh-keygen -t ed25519 -C "your.email@example.com"
 ```
 
-Generate the SSH key
+Start the SSH agent:
 
+**macOS/Linux:**
 ```sh
-$ ssh-keygen -t rsa -b 4096 -C "cargdev@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
 ```
 
-Check the key in with the terminal
+**Windows (Git Bash or PowerShell):**
+```powershell
+Start-Service ssh-agent
+ssh-add ~/.ssh/id_ed25519
+```
 
+Copy your public key:
 ```sh
-$ eval $(ssh-agent)
+cat ~/.ssh/id_ed25519.pub
 ```
 
-Add the key to Windows
-
-```sh
-$ ssh-add ~/.ssh/id_rsa
-```
-
-Copy your public key to github locate in --> ~/.ssh/id_rsa.pub
-In github go to Account/setting/SSH and GPG keys and add New SSH Key and Add it
+Add the key to GitHub: Go to **Account > Settings > SSH and GPG keys > New SSH Key**
 
 ![Github key.png](./Image/Github.PNG)
 
-### Installing Nodejs and NPM
+---
 
+## Installing Node.js and NPM
 
+### :apple: macOS
 
-Step 1 - Update the system using apt package manager index by running the following command.
-
+Using Homebrew:
 ```sh
-$ sudo apt update
+brew install node
 ```
 
-Step 2 - Install Node.js global repository by typing
-
+Using nvm (recommended):
 ```sh
-$ sudo apt install nodejs
+brew install nvm
+mkdir ~/.nvm
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+echo '[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"' >> ~/.zshrc
+source ~/.zshrc
+nvm install --lts
 ```
 
-Step 3 - Confirm the installation of Node.js by typing
+### :penguin: Linux (Debian/Ubuntu)
 
+Using apt:
 ```sh
-$ node --version
+sudo apt update
+sudo apt install nodejs npm
 ```
 
-Step 4 - Install npm by running following command
-
+Using nvm (recommended):
 ```sh
-$ sudo apt install npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm install --lts
 ```
 
-Step 5 - Confirm the installation of npm by typing
-
+Using NodeSource (for specific version):
 ```sh
-$ npm --version
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install nodejs
 ```
 
-if need a version in specified, download node from `curl`
+### :a: Arch Linux
 
 ```sh
-$ cd ~
-$ curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
-$ sudo apt install nodejs
+sudo pacman -S nodejs npm
+```
+
+Using nvm:
+```sh
+yay -S nvm
+echo 'source /usr/share/nvm/init-nvm.sh' >> ~/.zshrc
+source ~/.zshrc
+nvm install --lts
+```
+
+### :window: Windows
+
+Using Chocolatey:
+```powershell
+choco install nodejs-lts
+```
+
+Using winget:
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+Using nvm-windows:
+```powershell
+choco install nvm
+nvm install lts
+nvm use lts
+```
+
+### Verify Installation (All Platforms)
+
+```sh
+node --version
+npm --version
 ```
 
 ---
 
-## Installing OH-MY-ZSH
+## Installing Oh-My-Zsh
 
+### :apple: macOS
 
-Step 1- Installing ZSH and git-core
-
-open the terminal and type next:
-
+Zsh is the default shell. Install Oh-My-Zsh:
 ```sh
-$ sudo apt-get install zsh
-$ sudo apt-get install git-core
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Step 2 - Download ZSH and execute
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
+sudo apt install zsh git curl
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+chsh -s $(which zsh)
 ```
 
-Step 3 - Change from sheel to ZSH
+Restart your terminal or log out and back in.
+
+### :a: Arch Linux
 
 ```sh
-$ chsh -s `which zsh`
+sudo pacman -S zsh git curl
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+chsh -s $(which zsh)
 ```
 
-Step 4 - Restart your system
+### :window: Windows
+
+Install Git Bash or Windows Terminal with WSL, then:
+
+**Using WSL:**
+```sh
+sudo apt install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+chsh -s $(which zsh)
+```
+
+**Using Git Bash:**
+Download Zsh from [MSYS2](https://packages.msys2.org/package/zsh) and configure Git Bash to use it.
 
 ---
 
-## Installing NVIM
+## Installing Neovim
 
-Step 1 - Install [Neovim PPA](https://launchpad.net/~neovim-ppa/+archive/ubuntu/unstable)
+### :apple: macOS
 
 ```sh
-$ sudo add-apt-repository ppa:neovim-ppa/unstable
+brew install neovim
 ```
 
-then update the packages
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ sudo apt-get update
-$ sudo apt-get install neovim
+sudo add-apt-repository ppa:neovim-ppa/unstable
+sudo apt update
+sudo apt install neovim
 ```
 
-Step 2 - Check the installation
-
+Install clipboard support:
 ```sh
-$ nvim
+sudo apt install xclip xsel
 ```
 
-Step 3 - Install the copy clipboard due to NVim can copy to your system
+### :a: Arch Linux
 
 ```sh
-$ sudo apt install xclip
-$ sudo apt install xsel
+sudo pacman -S neovim xclip xsel
 ```
 
-Step 4 - Install [Python interface](https://github.com/neovim/python-client), this because some plugins in NVim use python to work
+### :window: Windows
 
-```sh
-$ sudo apt install python3-pip
+Using Chocolatey:
+```powershell
+choco install neovim
 ```
 
-Then install the NVim interface
-
-```sh
-$ python3 -m pip install neovim
+Using winget:
+```powershell
+winget install Neovim.Neovim
 ```
 
-Step 5 - Upgrade python interface
+### Install Dependencies (All Platforms)
 
+Python interface:
 ```sh
-$ python3 -m pip install --upgrade neovim
+pip3 install neovim
+pip3 install --upgrade neovim
 ```
 
-Step 6 - Install ruby, due to some interfaces from Python use [Ruby](https://rubygems.org/gems/neovim/)
-
+**For :penguin: Linux / :a: Arch:**
 ```sh
-$ sudo apt install ruby
-$ sudo apt install ruby-dev
+# Ruby interface
+sudo gem install neovim
 ```
 
-Install Ruby interface
-
+**For :apple: macOS:**
 ```sh
-$ sudo gem install neovim
+brew install ruby
+gem install neovim
 ```
 
-Step 7 - Checl the nvim dependencies
-
+Check health:
 ```sh
-$ nvim +checkhealth
+nvim +checkhealth
 ```
 
-![Github key.png](./Image/checkhealth.png)
+![checkhealth.png](./Image/checkhealth.png)
 
-Step 8 - Install the plug installator, in this case is vim-plug
+### Install vim-plug (All Platforms)
 
-In the terminal type the text below
 ```sh
-$ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
-A minimalist Vim plugin manager.
+
+**Windows (PowerShell):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+    ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+```
 
 <img src="https://raw.githubusercontent.com/junegunn/i/master/vim-plug/installer.gif" height="450">
 
-To check how use vim please go to [how use vim](http://vimsheet.com/)
+For Vim usage reference: [vimsheet.com](http://vimsheet.com/)
 
-To install the vim configuration I use check my [VIM Repository](https://github.com/CarGDev/Vim-configuration)
+Check out my [VIM Repository](https://github.com/CarGDev/Vim-configuration) for my configuration.
 
 ---
 
-## Installing autosuggestions and syntax-highlighting for ZSH
-
+## Installing ZSH Plugins
 
 ### zsh-autosuggestions
 
-
-Requirements: Zsh v4.3.11 or later
-
 <a href="https://asciinema.org/a/37390" target="_blank"><img src="https://asciinema.org/a/37390.png" width="400" /></a>
 
+**All Platforms (with Oh-My-Zsh):**
 
-Step 1 - Clone this repository into `$ZSH_CUSTOM/plugins` (by default `~/.oh-my-zsh/custom/plugins`)
-
+Clone the repository:
 ```sh
-$ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-Step 2 - Add the plugin to the list of plugins for Oh My Zsh to load (inside `~/.zshrc`):
-
+Add to `~/.zshrc`:
 ```sh
-$ plugins=(zsh-autosuggestions)
+plugins=(... zsh-autosuggestions)
 ```
 
-Step 3 - Start a new terminal session.
+### zsh-syntax-highlighting
 
+**All Platforms (with Oh-My-Zsh):**
 
-## zsh-syntax-highlighting
-
-Step 1 - Clone this repository in oh-my-zsh's plugins directory:
-
+Clone the repository:
 ```sh
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-Step 2 - Activate the plugin in `~/.zshrc`:
-
+Add to `~/.zshrc`:
 ```sh
-$ plugins=( [plugins...] zsh-syntax-highlighting)
+plugins=(... zsh-syntax-highlighting)
 ```
 
-Step 3 - Restart zsh (such as by opening a new instance of your terminal emulator).
-
+Restart your terminal.
 
 ---
 
-## Installing Powerlevel 10k for ZSH
+## Installing Powerlevel10k
 
-Step 1 - Install the theme typing next
+**All Platforms (with Oh-My-Zsh):**
 
 ```sh
-$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-Step 2 - Set ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc.
+Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`.
 
-Step 3 -  Restart zsh (such as by opening a new instance of your terminal emulator).
+Restart your terminal and follow the configuration wizard.
 
-Note: to use all the icons in this theme is recommended use [Meslo Nerd Font](https://github.com/romkatv/powerlevel10k/blob/master/font.md)
-
+**Note:** For full icon support, use the [MesloLGS NF font](#font-installation).
 
 ---
 
-## Installing ranger for terminal
+## Installing Ranger
 
-Download the repository
-
-```sh
-$ git clone https://github.com/hut/ranger.git
-```
-
-Installing ranger
+### :apple: macOS
 
 ```sh
-$ cd ranger
-$ sudo make install
+brew install ranger
 ```
 
-check the installation in the terminal
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ ranger
+sudo apt install ranger
 ```
 
-download the configuration
+Or from source:
+```sh
+git clone https://github.com/ranger/ranger.git
+cd ranger
+sudo make install
+```
+
+### :a: Arch Linux
 
 ```sh
-$ ranger --copy-config=all
+sudo pacman -S ranger
 ```
 
-to modify the files configuration:
+### :window: Windows
+
+Ranger is primarily for Unix systems. Use WSL for Windows.
+
+### Configuration (All Platforms)
 
 ```sh
-$ cd ~/.config/ranger
+ranger --copy-config=all
 ```
+
+Config files are located at `~/.config/ranger/`
+
+### Install Colorschemes
+
+```sh
+cd ~/.config/ranger
+git clone https://github.com/ranger/colorschemes.git
+```
+
 ---
-## Installing terminator
 
-Install terminator from the terminal
+## Installing Terminal Emulator
 
+### :apple: macOS
+
+**iTerm2 (recommended):**
 ```sh
-$ sudo apt install terminator
+brew install --cask iterm2
+```
+
+**Alacritty:**
+```sh
+brew install --cask alacritty
+```
+
+**Kitty:**
+```sh
+brew install --cask kitty
+```
+
+### :penguin: Linux (Debian/Ubuntu)
+
+**Terminator:**
+```sh
+sudo apt install terminator
+```
+
+**Alacritty:**
+```sh
+sudo add-apt-repository ppa:aslatter/ppa
+sudo apt update
+sudo apt install alacritty
+```
+
+**Kitty:**
+```sh
+sudo apt install kitty
+```
+
+### :a: Arch Linux
+
+**Alacritty:**
+```sh
+sudo pacman -S alacritty
+```
+
+**Kitty:**
+```sh
+sudo pacman -S kitty
+```
+
+**Terminator:**
+```sh
+sudo pacman -S terminator
+```
+
+### :window: Windows
+
+**Windows Terminal (recommended):**
+```powershell
+winget install Microsoft.WindowsTerminal
+```
+
+**Alacritty:**
+```powershell
+choco install alacritty
 ```
 
 ---
 
-## Installing extensions in Ubuntu
+## Installing GNOME Extensions (Linux)
 
-To install gnome extensions install first `chrome-gnome-shell` from the terminal
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ sudo apt-get update
-$ sudo apt-get upgrade
-$ sudo apt-get install chrome-gnome-shell
+sudo apt update && sudo apt upgrade
+sudo apt install gnome-shell-extensions chrome-gnome-shell
 ```
 
-In particular I like the extensions below
+### :a: Arch Linux
 
-- [dash-to-dock](https://extensions.gnome.org/extension/307/dash-to-dock/)
-- [arc menu](https://extensions.gnome.org/extension/3628/arcmenu/)
+```sh
+sudo pacman -S gnome-shell-extensions
+yay -S chrome-gnome-shell
+```
+
+### Recommended Extensions
+
+- [Dash to Dock](https://extensions.gnome.org/extension/307/dash-to-dock/)
+- [Arc Menu](https://extensions.gnome.org/extension/3628/arcmenu/)
 - [Transparent Top Bar](https://extensions.gnome.org/extension/3960/transparent-top-bar-adjustable-transparency/)
 
-for more extensions [click here](https://extensions.gnome.org/)
+Browse more at [extensions.gnome.org](https://extensions.gnome.org/)
 
 ---
 
-## Installing postman
+## Installing Postman
+
+### :apple: macOS
 
 ```sh
-$ sudo snap install postman
+brew install --cask postman
+```
+
+### :penguin: Linux (Debian/Ubuntu)
+
+```sh
+sudo snap install postman
+```
+
+Or using Flatpak:
+```sh
+flatpak install flathub com.getpostman.Postman
+```
+
+### :a: Arch Linux
+
+```sh
+yay -S postman-bin
+```
+
+### :window: Windows
+
+Using Chocolatey:
+```powershell
+choco install postman
+```
+
+Using winget:
+```powershell
+winget install Postman.Postman
 ```
 
 ---
+
 ## Installing DBeaver
 
-Download DBeaver
+### :apple: macOS
 
 ```sh
-$ wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add -
+brew install --cask dbeaver-community
 ```
 
-and then
+### :penguin: Linux (Debian/Ubuntu)
 
 ```sh
-$ echo "deb https://dbeaver.io/debs/dbeaver-ce /" \
-| sudo tee /etc/apt/sources.list.d/dbeaver.list
+wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add -
+echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+sudo apt update
+sudo apt install dbeaver-ce
 ```
-after that you can download `DBeaver`
+
+Or using Snap:
+```sh
+sudo snap install dbeaver-ce
+```
+
+### :a: Arch Linux
 
 ```sh
-$ sudo apt update
-$ sudo apt install dbeaver-ce
+sudo pacman -S dbeaver
 ```
 
-## Installing colorscheme for ranger
+### :window: Windows
 
-```sh
-$ cd ~/.config/ranger
-$ git clone https://github.com/ranger/colorschemes.git
+Using Chocolatey:
+```powershell
+choco install dbeaver
 ```
+
+Using winget:
+```powershell
+winget install dbeaver.dbeaver
+```
+
+---
+
+## Quick Reference - Package Managers
+
+| OS | Package Manager | Install Command |
+|----|-----------------|-----------------|
+| :apple: macOS | Homebrew | `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` |
+| :penguin: Debian/Ubuntu | apt | Pre-installed |
+| :a: Arch Linux | pacman/yay | `sudo pacman -S yay` or install from AUR |
+| :window: Windows | Chocolatey | `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))` |
+| :window: Windows | winget | Pre-installed on Windows 11 / Available via Microsoft Store |
+
+---
+
+## License
+
+See [LICENSE](./LICENSE) for details.
